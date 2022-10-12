@@ -25,6 +25,11 @@ namespace GypooWebAPI.Services
             return await _hotelCollection.Find(new BsonDocument()).ToListAsync();
         }
 
+        public async Task<Hotel> GetHotelByIdAsync(string id)
+        {
+            return await _hotelCollection.Find(_hotel => _hotel.Id == id).SingleAsync();
+        }
+
         public async Task AddRoomToHotelAsync(string id, string roomId)
         {
             FilterDefinition<Hotel> filter = Builders<Hotel>.Filter.Eq("Id", id);

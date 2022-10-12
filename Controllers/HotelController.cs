@@ -5,7 +5,7 @@ using GypooWebAPI.Models;
 
 namespace GypooWebAPI.Controllers
 {
-    [Controller]
+    [ApiController]
     [Route("api/[controller]")]
     public class HotelController : Controller
     {
@@ -21,6 +21,13 @@ namespace GypooWebAPI.Controllers
         {
             return await _mongoDBService.GetHotelsAsync();
         }
+
+        [HttpGet("gethotel/{id}")]
+        public async Task<Hotel> GetHotel(string id)
+        {
+            return await _mongoDBService.GetHotelByIdAsync(id);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Hotel hotel)
         {

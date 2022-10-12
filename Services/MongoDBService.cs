@@ -13,6 +13,7 @@ namespace GypooWebAPI.Services
             MongoClient client = new MongoClient(mongoDBSettings.Value.ConnectionString);
             IMongoDatabase database = client.GetDatabase(mongoDBSettings.Value.DatabaseName);
             _hotelCollection = database.GetCollection<Hotel>("Hotels");
+            
         }
 
     }
