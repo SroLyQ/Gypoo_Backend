@@ -17,7 +17,7 @@ namespace GypooWebAPI.Models
         public string Location { get; set; } = null!;
 
         public string Description { get; set; } = null!;
-        
+
         public List<string> roomIds { get; set; } = null!;
     }
 }

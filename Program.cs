@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("GypooDatabase"));
 builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddSingleton<HotelService>();
+builder.Services.AddSingleton<UserService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
