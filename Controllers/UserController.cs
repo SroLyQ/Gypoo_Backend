@@ -25,5 +25,20 @@ namespace GypooWebAPI.Controllers
             var _user = await _userService.registerAsync(request);
             return CreatedAtAction("register", _user);
         }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login([FromBody] UserDTO req)
+        {
+            var token = await _userService.loginAsync(req);
+            if (token == "false")
+            {
+                return BadRequest("Wrong Password!");
+            }
+            else if (token == "UsernameFalse")
+            {
+                return BadRequest("Wrong Username!");
+            }
+            return token;
+        }
     }
 }
