@@ -24,7 +24,15 @@ namespace GypooWebAPI.Models
 
         // public string sideBed { get; set; } = null!;
         public bool breakFast { get; set; } = false!;
+        public bool roomCleaning { get; set; } = false!;
 
+    }
+    public class Comment
+    {
+        public string roomType { get; set; } = null!;
+        public string period { get; set; } = null!;
+        public float? rating { get; set; } = 0!;
+        public string content { get; set; } = null!;
     }
 
 }
