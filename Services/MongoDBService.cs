@@ -16,7 +16,7 @@ namespace GypooWebAPI.Services
             IMongoDatabase database = client.GetDatabase(mongoDBSettings.Value.DatabaseName);
             _hotelCollection = database.GetCollection<Hotel>("Hotels");
             _userCollection = database.GetCollection<User>("Users");
-            _roomCollection = database.GetCollection<Room>("Room");
+            _roomCollection = database.GetCollection<Room>("Rooms");
 
         }
 
