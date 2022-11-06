@@ -29,8 +29,9 @@ namespace GypooWebAPI.Models
     }
     public class Comment
     {
+        public string name { get; set; } = null!;
         public string roomType { get; set; } = null!;
-        public string period { get; set; } = null!;
+        public string date { get; set; } = null!;
         public float? rating { get; set; } = 0!;
         public string content { get; set; } = null!;
     }
