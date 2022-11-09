@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GypooWebAPI.Services;
 using GypooWebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GypooWebAPI.Controllers
 {
@@ -39,6 +40,30 @@ namespace GypooWebAPI.Controllers
                 return BadRequest("Wrong Username!");
             }
             return token;
+        }
+
+        [HttpGet("token")]
+        public async Task<ActionResult<string>> validateToken()
+        {
+            string token = Request.Headers["x-access-token"];
+            Console.WriteLine(token);
+            if (token == "" || token == null)
+            {
+                return Unauthorized("Header Token missing!");
+            }
+            else
+            {
+                bool isValid = _userService.validateToken(token);
+                if (isValid)
+                {
+                    return Ok(token);
+                }
+                else
+                {
+                    return Unauthorized("Token invalid");
+                }
+            }
+
         }
     }
 }
