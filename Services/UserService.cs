@@ -5,6 +5,9 @@ using GypooWebAPI.Models;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Security.Principal;
+
 namespace GypooWebAPI.Services
 {
     public class UserService
@@ -35,7 +38,17 @@ namespace GypooWebAPI.Services
                 return loginHash.SequenceEqual(passwordHash);
             }
         }
-
+        private TokenValidationParameters GetTokenValidationParameters()
+        {
+            return new TokenValidationParameters()
+            {
+                ValidateIssuerSigningKey = true,
+                ValidateLifetime = true,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:JWTSecretKey").Value)),
+            };
+        }
         private string CreateToken(User user)
         {
 
@@ -95,6 +108,23 @@ namespace GypooWebAPI.Services
             {
                 return "false";
             }
+        }
+
+        public bool validateToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var validationParameter = GetTokenValidationParameters();
+
+            SecurityToken validatedToken;
+            try
+            {
+                IPrincipal principal = tokenHandler.ValidateToken(token, validationParameter, out validatedToken);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
