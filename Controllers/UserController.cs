@@ -39,7 +39,8 @@ namespace GypooWebAPI.Controllers
             {
                 return BadRequest("Wrong Username!");
             }
-            return token;
+
+            return Ok(new { token = token });
         }
 
         [HttpGet("token")]
