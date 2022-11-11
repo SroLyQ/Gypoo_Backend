@@ -24,7 +24,7 @@ namespace GypooWebAPI.Controllers
         public async Task<ActionResult<User>> Register([FromBody] UserDTO request)
         {
             var _user = await _userService.registerAsync(request);
-            return CreatedAtAction("register", _user);
+            return CreatedAtAction("register", new { user = _user });
         }
 
         [HttpPost("login")]
@@ -33,11 +33,11 @@ namespace GypooWebAPI.Controllers
             var token = await _userService.loginAsync(req);
             if (token == "false")
             {
-                return BadRequest("Wrong Password!");
+                return BadRequest(new { message = "Wrong Password!" });
             }
             else if (token == "UsernameFalse")
             {
-                return BadRequest("Wrong Username!");
+                return BadRequest(new { message = "Wrong Username!" });
             }
 
             return Ok(new { token = token });
@@ -50,18 +50,18 @@ namespace GypooWebAPI.Controllers
             Console.WriteLine(token);
             if (token == "" || token == null)
             {
-                return Unauthorized("Header Token missing!");
+                return Unauthorized(new { message = "Header Token missing!" });
             }
             else
             {
                 bool isValid = _userService.validateToken(token);
                 if (isValid)
                 {
-                    return Ok(token);
+                    return Ok(new { token = token });
                 }
                 else
                 {
-                    return Unauthorized("Token invalid");
+                    return Unauthorized(new { message = "Token invalid" });
                 }
             }
 

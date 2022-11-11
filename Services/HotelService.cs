@@ -22,12 +22,14 @@ namespace GypooWebAPI.Services
 
         public async Task<List<Hotel>> GetHotelsAsync()
         {
-            return await _hotelCollection.Find(new BsonDocument()).ToListAsync();
+            List<Hotel> hotels = await _hotelCollection.Find(new BsonDocument()).ToListAsync();
+            return hotels;
         }
 
         public async Task<Hotel> GetHotelByIdAsync(string id)
         {
-            return await _hotelCollection.Find(_hotel => _hotel.Id == id).SingleAsync();
+            Hotel hotel = await _hotelCollection.Find(_hotel => _hotel.Id == id).SingleAsync();
+            return hotel;
         }
 
         public async Task AddRoomToHotelAsync(string id, string roomId)
