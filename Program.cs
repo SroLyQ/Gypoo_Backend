@@ -29,6 +29,14 @@ builder.Services.AddSwaggerGen(options =>
     }
 );
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("devPolicy", builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,6 +44,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("devPolicy");
 }
 
 app.UseHttpsRedirection();

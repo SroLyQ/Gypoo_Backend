@@ -17,15 +17,20 @@ namespace GypooWebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Hotel>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _hotelService.GetHotelsAsync();
+            List<Hotel> hotels = await _hotelService.GetHotelsAsync();
+            return Ok(new
+            {
+                hotels = hotels
+            });
         }
 
         [HttpGet("gethotel/{id}")]
-        public async Task<Hotel> GetHotel(string id)
+        public async Task<IActionResult> GetHotel(string id)
         {
-            return await _hotelService.GetHotelByIdAsync(id);
+            Hotel hotel = await _hotelService.GetHotelByIdAsync(id);
+            return Ok(new { hotel = hotel });
         }
 
         [HttpPost]
@@ -35,11 +40,11 @@ namespace GypooWebAPI.Controllers
             return CreatedAtAction(nameof(Get), new { id = hotel.Id }, hotel);
         }
 
-        [HttpPut("id")]
+        [HttpPut("addRoom/{id}")]
         public async Task<IActionResult> AddRoomToHotel(string id, [FromBody] string roomId)
         {
             await _hotelService.AddRoomToHotelAsync(id, roomId);
-            return NoContent();
+            return Ok(new { message = "Room Added" });
         }
     }
 }
