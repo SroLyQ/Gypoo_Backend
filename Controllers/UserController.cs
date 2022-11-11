@@ -15,10 +15,10 @@ namespace GypooWebAPI.Controllers
         {
             _userService = userService;
         }
-        [HttpGet]
-        public async Task<List<User>> GetUsers()
+        [HttpGet("{id}")]
+        public async Task<User> GetUser(string id)
         {
-            return await _userService.GetUsersAsync();
+            return await _userService.GetUserByIdAsync(id);
         }
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register([FromBody] UserDTO request)

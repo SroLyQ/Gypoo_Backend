@@ -74,9 +74,9 @@ namespace GypooWebAPI.Services
             return jwt;
         }
 
-        public async Task<List<User>> GetUsersAsync()
+        public async Task<User> GetUserByIdAsync(string id)
         {
-            return await _userCollection.Find(new BsonDocument()).ToListAsync();
+            return await _userCollection.Find(_user => _user.Id == id).SingleAsync();
         }
         public async Task<User> registerAsync(UserDTO user)
         {
