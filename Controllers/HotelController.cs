@@ -44,7 +44,7 @@ namespace GypooWebAPI.Controllers
         public async Task<IActionResult> AddRoomToHotel(string id, [FromBody] string roomId)
         {
             await _hotelService.AddRoomToHotelAsync(id, roomId);
-            return NoContent();
+            return Ok(new { message = "Room Added" });
         }
     }
 }
