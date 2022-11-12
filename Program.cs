@@ -12,6 +12,7 @@ builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddSingleton<HotelService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<RoomService>();
+builder.Services.AddSingleton<UploadService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -46,6 +47,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.UseCors("devPolicy");
 }
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
