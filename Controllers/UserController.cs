@@ -16,7 +16,7 @@ namespace GypooWebAPI.Controllers
             _userService = userService;
         }
         [HttpGet("{id}")]
-        public async Task<User> GetUser(string id)
+        public async Task<UserNoPW> GetUser(string id)
         {
             return await _userService.GetUserByIdAsync(id);
         }

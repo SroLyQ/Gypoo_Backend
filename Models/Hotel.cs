@@ -27,6 +27,8 @@ namespace GypooWebAPI.Models
         public float rating { get; set; } = 0;
 
         public int review { get; set; } = 0;
+
+        public List<string> manager { get; set; } = null!;
         public List<string> comment { get; set; } = null!;
         public List<string> roomIds { get; set; } = null!;
     }
