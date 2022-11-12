@@ -12,5 +12,7 @@ namespace GypooWebAPI.Models
         public byte[] PasswordHash { get; set; } = null!;
 
         public byte[]? PasswordSalt { get; set; }
+
+        public string role { get; set; } = null!;
     }
 }
