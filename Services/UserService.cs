@@ -80,10 +80,14 @@ namespace GypooWebAPI.Services
             UserNoPW userNoPW = (UserNoPW)users;
             return userNoPW;
         }
-        public async Task<User> registerAsync(UserDTO user)
+        public async Task<UserNoPW> registerAsync(UserDTO user)
         {
             createPasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
+            var _existUser = await _userCollection.Find(_user => _user.Username == user.Username).SingleOrDefaultAsync();
+            if (_existUser != null)
+            {
+                return null;
+            }
             var _user = new User();
 
             _user.Username = user.Username;
@@ -94,8 +98,8 @@ namespace GypooWebAPI.Services
 
             _user.token = token;
             await _userCollection.InsertOneAsync(_user);
-
-            return _user;
+            UserNoPW _resUser = (UserNoPW)_user;
+            return _resUser;
         }
 
         public async Task<string> loginAsync(UserDTO user)
