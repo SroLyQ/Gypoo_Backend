@@ -13,6 +13,7 @@ namespace GypooWebAPI.Models
 
         public byte[]? PasswordSalt { get; set; }
 
+        public string? token { get; set; } = null!;
         public string role { get; set; } = null!;
     }
 }

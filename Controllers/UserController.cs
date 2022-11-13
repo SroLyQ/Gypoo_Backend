@@ -23,8 +23,13 @@ namespace GypooWebAPI.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register([FromBody] UserDTO request)
         {
+
+            if (request.Password != request.ConfirmPassword)
+            {
+                return BadRequest(new { message = "Password must match!" });
+            }
             var _user = await _userService.registerAsync(request);
-            return CreatedAtAction("register", new { user = _user });
+            return CreatedAtAction("register", new { user = _user, token = _user.token });
         }
 
         [HttpPost("login")]

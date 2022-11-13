@@ -89,6 +89,10 @@ namespace GypooWebAPI.Services
             _user.Username = user.Username;
             _user.PasswordHash = passwordHash;
             _user.PasswordSalt = passwordSalt;
+
+            string token = CreateToken(_user);
+
+            _user.token = token;
             await _userCollection.InsertOneAsync(_user);
 
             return _user;
