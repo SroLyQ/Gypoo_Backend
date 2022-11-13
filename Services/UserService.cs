@@ -108,6 +108,8 @@ namespace GypooWebAPI.Services
             if (VerifyPasswordHash(user.Password, _user.PasswordHash, _user.PasswordSalt))
             {
                 string token = CreateToken(_user);
+                var update = Builders<User>.Update.Set("token", token);
+                var res = await _userCollection.UpdateOneAsync(_user => _user.Username == user.Username, update);
                 return token;
             }
             else
