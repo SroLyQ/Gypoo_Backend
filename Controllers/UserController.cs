@@ -21,10 +21,19 @@ namespace GypooWebAPI.Controllers
             return await _userService.GetUserByIdAsync(id);
         }
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register([FromBody] UserDTO request)
+        public async Task<ActionResult<string>> Register([FromBody] UserDTO request)
         {
+
+            if (request.password != request.confirmPassword)
+            {
+                return BadRequest(new { message = "Password must match!" });
+            }
             var _user = await _userService.registerAsync(request);
-            return CreatedAtAction("register", new { user = _user });
+            if (_user == null)
+            {
+                return BadRequest(new { message = "User Already Exist!" });
+            }
+            return CreatedAtAction("register", new { user = _user, token = _user.token });
         }
 
         [HttpPost("login")]

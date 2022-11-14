@@ -20,7 +20,17 @@ Gypoo is a hotel recommendation and booking web application
 
 - GET /api/User/{id}
 - POST /api/User/register
+    - username : string
+    - password : string
+    - comfirmPassword : string
 - POST /api/User/login
+    - username : string
+    - password : string
 - GET /api/User/token
+
+### Upload
+
+- POST /api/upload
+    - files : List<file>
 
 ## Frontend Repository: https://github.com/SroLyQ/Gypoo_Frontend
