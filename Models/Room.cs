@@ -8,7 +8,7 @@ namespace GypooWebAPI.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? idRoom { get; set; } = null!;
 
-        // public string sideBed { get; set; } = null!;
+        public string roomType { get; set; } = null!;
 
         public float price { get; set; } = 0;
 
@@ -22,18 +22,20 @@ namespace GypooWebAPI.Models
     public class ServiceRoom
     {
 
-        // public string sideBed { get; set; } = null!;
-        public bool breakFast { get; set; } = false!;
+        public bool isWifi { get; set; } = false!;
+        public bool isParking { get; set; } = false!;
+        public bool isAnimals { get; set; } = false!;
+        public bool isBreakFast { get; set; } = false!;
         public bool roomCleaning { get; set; } = false!;
 
     }
-    public class Comment
-    {
-        public string name { get; set; } = null!;
-        public string roomType { get; set; } = null!;
-        public string date { get; set; } = null!;
-        public float? rating { get; set; } = 0!;
-        public string content { get; set; } = null!;
-    }
+    // public class Comment
+    // {
+    //     public string name { get; set; } = null!;
+    //     public string roomType { get; set; } = null!;
+    //     public string date { get; set; } = null!;
+    //     public float? rating { get; set; } = 0!;
+    //     public string content { get; set; } = null!;
+    // }
 
 }
