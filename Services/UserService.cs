@@ -53,8 +53,8 @@ namespace GypooWebAPI.Services
         {
 
             List<Claim> claims = new List<Claim>{
-                new Claim("Username", user.Username),
-                new Claim("Role", "AdminKodHod")
+                new Claim("username", user.username),
+                new Claim("role", "AdminKodHod")
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
@@ -82,15 +82,15 @@ namespace GypooWebAPI.Services
         }
         public async Task<UserNoPW> registerAsync(UserDTO user)
         {
-            createPasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            var _existUser = await _userCollection.Find(_user => _user.Username == user.Username).SingleOrDefaultAsync();
+            createPasswordHash(user.password, out byte[] passwordHash, out byte[] passwordSalt);
+            var _existUser = await _userCollection.Find(_user => _user.username == user.username).SingleOrDefaultAsync();
             if (_existUser != null)
             {
                 return null;
             }
             var _user = new User();
 
-            _user.Username = user.Username;
+            _user.username = user.username;
             _user.PasswordHash = passwordHash;
             _user.PasswordSalt = passwordSalt;
 
@@ -104,16 +104,16 @@ namespace GypooWebAPI.Services
 
         public async Task<string> loginAsync(UserDTO user)
         {
-            var _user = await _userCollection.Find(_user => _user.Username == user.Username).SingleOrDefaultAsync();
+            var _user = await _userCollection.Find(_user => _user.username == user.username).SingleOrDefaultAsync();
             if (_user == null)
             {
                 return "UsernameFalse";
             }
-            if (VerifyPasswordHash(user.Password, _user.PasswordHash, _user.PasswordSalt))
+            if (VerifyPasswordHash(user.password, _user.PasswordHash, _user.PasswordSalt))
             {
                 string token = CreateToken(_user);
                 var update = Builders<User>.Update.Set("token", token);
-                var res = await _userCollection.UpdateOneAsync(_user => _user.Username == user.Username, update);
+                var res = await _userCollection.UpdateOneAsync(_user => _user.username == user.username, update);
                 return token;
             }
             else

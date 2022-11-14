@@ -24,7 +24,7 @@ namespace GypooWebAPI.Controllers
         public async Task<ActionResult<string>> Register([FromBody] UserDTO request)
         {
 
-            if (request.Password != request.ConfirmPassword)
+            if (request.password != request.confirmPassword)
             {
                 return BadRequest(new { message = "Password must match!" });
             }
