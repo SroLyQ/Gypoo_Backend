@@ -16,6 +16,13 @@ Gypoo is a hotel recommendation and booking web application
 - GET /api/Hotel/{id}
 - PUT /api/Hotel/addRoomTo/{id}
 
+### Room
+
+- GET /api/Room
+- POST /api/Room
+- GET /api/Room/getroom/{id}
+- PUT /api/Room/{id}
+
 ### User
 
 - GET /api/User/{id}
