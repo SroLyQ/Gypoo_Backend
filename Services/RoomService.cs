@@ -38,5 +38,11 @@ namespace GypooWebAPI.Services
             await _roomCollection.UpdateOneAsync(filter, update);
             return;
         }
+
+        // public async Task DeleteRoomAsync(string id)
+        // {
+
+        //     return;
+        // }
     }
 }

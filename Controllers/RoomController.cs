@@ -30,15 +30,29 @@ namespace GypooWebAPI.Controllers
         public async Task<IActionResult> Post([FromBody] Room room)
         {
             await _roomService.CreateRoomAsync(room);
+
             return CreatedAtAction(nameof(Get), new { id = room.idRoom }, room);
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> AddDetailToRoom(string id, [FromBody] string roomId)
         {
             await _roomService.AddDetailToRoomAsync(id, roomId);
             return NoContent();
         }
+
+        // [HttpDelete("{id}")]
+        // public async Task<IActionResult> DeleteToRoom(string id)
+        // {
+        //     var RoomDelete = await _roomService.GetRoomByIdAsync(id);
+        //     if (RoomDelete == null)
+        //     {
+        //         return NotFound($"Room with ID = {id} not found");
+        //     }
+        //     return await _roomService.DeleteRoomAsync(id);     
+
+        // }
+
     }
 
 }
