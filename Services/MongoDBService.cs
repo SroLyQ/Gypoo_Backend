@@ -9,6 +9,7 @@ namespace GypooWebAPI.Services
         public readonly IMongoCollection<Hotel> _hotelCollection;
         public readonly IMongoCollection<User> _userCollection;
         public readonly IMongoCollection<Room> _roomCollection;
+        public readonly IMongoCollection<Comment> _commentCollection;
 
         public MongoDBService(IOptions<MongoDBSettings> mongoDBSettings)
         {
@@ -17,6 +18,7 @@ namespace GypooWebAPI.Services
             _hotelCollection = database.GetCollection<Hotel>("Hotels");
             _userCollection = database.GetCollection<User>("Users");
             _roomCollection = database.GetCollection<Room>("Rooms");
+            _commentCollection = database.GetCollection<Comment>("Comments");
 
         }
 

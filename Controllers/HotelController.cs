@@ -38,14 +38,30 @@ namespace GypooWebAPI.Controllers
         public async Task<IActionResult> Post([FromBody] Hotel hotel)
         {
             await _hotelService.CreateAsync(hotel);
-            return CreatedAtAction(nameof(Get), new { id = hotel.Id }, hotel);
+            return CreatedAtAction(nameof(Post), new { id = hotel.Id }, hotel);
         }
-
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(string id, [FromBody] Hotel hotel)
+        {
+            Hotel updatedHotel = await _hotelService.updateHotelByIdAsync(id, hotel);
+            if (updatedHotel == null)
+            {
+                return BadRequest(new { message = "Wrong id or Body key(s) missing!" });
+            }
+            return Ok(new { message = "Updated", hotel = updatedHotel });
+        }
         [HttpPut("addRoomTo/{id}")]
         public async Task<IActionResult> AddRoomToHotel(string id, [FromBody] string roomId)
         {
             await _hotelService.AddRoomToHotelAsync(id, roomId);
             return Ok(new { message = "Room Added" });
+        }
+
+        [HttpGet("myHotel/{id}")]
+        public async Task<IActionResult> GetMyHotel(string id)
+        {
+            List<Hotel> hotels = await _hotelService.getHotelByOwnerId(id);
+            return Ok(new { message = "My Hotels Found!", hotels = hotels });
         }
     }
 }

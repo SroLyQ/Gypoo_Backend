@@ -13,6 +13,7 @@ builder.Services.AddSingleton<HotelService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<RoomService>();
 builder.Services.AddSingleton<UploadService>();
+builder.Services.AddSingleton<CommentService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
