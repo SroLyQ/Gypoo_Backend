@@ -34,21 +34,32 @@ namespace GypooWebAPI.Services
 
         public async Task<Hotel> updateHotelByIdAsync(string id, Hotel hotel)
         {
-            ReplaceOneResult result = await _hotelCollection.ReplaceOneAsync(_hotel => _hotel.Id == id, hotel);
-            long isUpdated = result.ModifiedCount;
-            if (isUpdated == 0)
+            var option = new FindOneAndUpdateOptions<Hotel, Hotel>
+            {
+                IsUpsert = false,
+                ReturnDocument = ReturnDocument.After
+            };
+            var update = Builders<Hotel>.Update.Set("name", hotel.name).Set("email", hotel.email).Set("phone", hotel.phone).Set("address", hotel.address).Set("about", hotel.about).Set("mapURL", hotel.mapURL).Set("ownerID", hotel.ownerID).Set("locationType", hotel.locationType);
+            Hotel result = await _hotelCollection.FindOneAndUpdateAsync<Hotel>(_hotel => _hotel.Id == id, update, option);
+            if (result == null)
             {
                 return null!;
             }
-            return hotel;
+            return result;
         }
 
         public async Task AddRoomToHotelAsync(string id, string roomId)
         {
             FilterDefinition<Hotel> filter = Builders<Hotel>.Filter.Eq("Id", id);
-            UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet<string>("roomIds", roomId);
+            UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet<string>("room", roomId);
             await _hotelCollection.UpdateOneAsync(filter, update);
             return;
+        }
+
+        public async Task<List<Hotel>> getHotelByOwnerId(string ownerID)
+        {
+            List<Hotel> myHotels = await _hotelCollection.Find(_hotel => _hotel.ownerID == ownerID).ToListAsync();
+            return myHotels;
         }
     }
 }

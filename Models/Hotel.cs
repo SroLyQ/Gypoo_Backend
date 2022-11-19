@@ -18,13 +18,20 @@ namespace GypooWebAPI.Models
         public string address { get; set; } = null!;
         public string about { get; set; } = null!;
         public string mapURL { get; set; } = null!;
+        public string ownerID { get; set; } = null!;
+        public LocationType locationType { get; set; } = null!;
         public List<string> picture { get; set; } = null!;
         public double? price { get; set; } = 0;
         public float? discount { get; set; } = 0;
         public float? rating { get; set; } = 0;
         public int? review { get; set; } = 0;
-
         public List<Room>? room { get; set; } = null!;
-        public List<Comment>? comments {get;set;} = null!;
+        public List<Comment>? comments { get; set; } = null!;
+    }
+    public class LocationType
+    {
+        public Boolean isHotel { get; set; } = false;
+        public Boolean isRestaurant { get; set; } = false;
+        public Boolean isTravel { get; set; } = false;
     }
 }
