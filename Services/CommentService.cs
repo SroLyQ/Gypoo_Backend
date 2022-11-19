@@ -8,6 +8,17 @@ namespace GypooWebAPI.Services
         private MongoDBService _mongoDBService;
         private IMongoCollection<Comment> _commentCollection;
         private IMongoCollection<Hotel> _hotelCollection;
+        private double rateCalculation(List<Comment> comments)
+        {
+            double rating = 0;
+            foreach (var arrcomment in comments)
+            {
+                rating += arrcomment.rating;
+            }
+            rating /= comments.Count;
+            rating = Math.Round(rating, 2);
+            return rating;
+        }
         public CommentService(MongoDBService mongoDBService)
         {
             _mongoDBService = mongoDBService;
@@ -26,13 +37,8 @@ namespace GypooWebAPI.Services
             comment.date = nowDate.ToString("dd/MM/yyyy hh:mm tt");
             await _commentCollection.InsertOneAsync(comment);
             Comment _comment = comment;
-            List<Comment> comments = await this.GetCommentsByHotelId(comment.commentOn); double rating = 0;
-            foreach (var arrcomment in comments)
-            {
-                rating += arrcomment.rating;
-            }
-            rating /= comments.Count;
-            rating = Math.Round(rating, 2);
+            List<Comment> comments = await this.GetCommentsByHotelId(comment.commentOn);
+            double rating = this.rateCalculation(comments);
             UpdateDefinition<Hotel> update = Builders<Hotel>.Update.Set<double>("rating", rating);
             await _hotelCollection.UpdateOneAsync(_hotel => _hotel.Id == comment.commentOn, update);
             return _comment;
