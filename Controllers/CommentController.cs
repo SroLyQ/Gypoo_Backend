@@ -26,5 +26,12 @@ namespace GypooWebAPI.Controllers
             Comment _comment = await _commentService.CreateCommentAsync(comment);
             return Ok(new { message = "Commented!", comment = comment });
         }
+
+        [HttpGet("hotel/{id}")]
+        public async Task<IActionResult> getCommentByHotel(string id)
+        {
+            List<Comment> comments = await _commentService.GetCommentsByHotelId(id);
+            return Ok(new { message = "Comments Found", comments = comments });
+        }
     }
 }

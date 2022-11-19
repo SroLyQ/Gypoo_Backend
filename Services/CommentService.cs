@@ -20,9 +20,16 @@ namespace GypooWebAPI.Services
         }
         public async Task<Comment> CreateCommentAsync(Comment comment)
         {
+            DateTime nowDate = DateTime.Now;
+            comment.date = nowDate.ToString("dd/MM/yyyy hh:mm tt");
             await _commentCollection.InsertOneAsync(comment);
             Comment _comment = comment;
             return _comment;
+        }
+        public async Task<List<Comment>> GetCommentsByHotelId(string hotelId)
+        {
+            List<Comment> comments = await _commentCollection.Find(_comment => _comment.commentOn == hotelId).ToListAsync();
+            return comments;
         }
     }
 }
