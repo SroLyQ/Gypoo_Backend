@@ -48,7 +48,6 @@ namespace GypooWebAPI.Controllers
             {
                 return BadRequest(new { message = "Wrong Username!" });
             }
-
             return Ok(new { token = token });
         }
 
@@ -74,6 +73,16 @@ namespace GypooWebAPI.Controllers
                 }
             }
 
+        }
+        [HttpGet("username/{id}")]
+        public async Task<ActionResult<string>> getUsername(string id)
+        {
+            string username = await _userService.getUsername(id);
+            if (username == "Not Found")
+            {
+                return BadRequest(new { message = "User Not Found!", username = "" });
+            }
+            return Ok(new { message = "Ok User Found!", username = username });
         }
     }
 }

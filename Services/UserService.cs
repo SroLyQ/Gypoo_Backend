@@ -138,5 +138,12 @@ namespace GypooWebAPI.Services
             }
             return true;
         }
+        public async Task<string> getUsername(string id){
+            User user = await _userCollection.Find(_user => _user.Id == id).SingleAsync();
+            if (user == null){
+                return "Not Found";
+            }
+            return user.username;
+        }
     }
 }
