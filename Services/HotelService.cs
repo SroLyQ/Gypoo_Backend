@@ -32,6 +32,17 @@ namespace GypooWebAPI.Services
             return hotel;
         }
 
+        public async Task<Hotel> updateHotelByIdAsync(string id, Hotel hotel)
+        {
+            ReplaceOneResult result = await _hotelCollection.ReplaceOneAsync(_hotel => _hotel.Id == id, hotel);
+            long isUpdated = result.ModifiedCount;
+            if (isUpdated == 0)
+            {
+                return null!;
+            }
+            return hotel;
+        }
+
         public async Task AddRoomToHotelAsync(string id, string roomId)
         {
             FilterDefinition<Hotel> filter = Builders<Hotel>.Filter.Eq("Id", id);
