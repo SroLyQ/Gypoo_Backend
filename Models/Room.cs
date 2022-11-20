@@ -11,17 +11,21 @@ namespace GypooWebAPI.Models
         public int guest { get; set; } = 0!;
         public int roomCount { get; set; } = 0!;
         public int currentRoom { get; set; } = 0!;
-        public List<string> picture { get; set; } = null!;
+        public List<string> picture { get; set; } = new List<string>();
         public float roomPrice { get; set; } = 0!;
 
 
         // public List<string> facilities { get; set; } = null!;
-
-        public List<ServiceRoom> service { get; set; } = null!;
+        public List<roomAva> roomCount30Day { get; set; } = new List<roomAva>();
+        public List<ServiceRoom> service { get; set; } = new List<ServiceRoom>();
 
         // public string comment { get; set; } = null!;
     }
-
+    public class roomAva
+    {
+        public string date { get; set; } = null!;
+        public int count { get; set; } = 0;
+    }
     public class ServiceRoom
     {
 

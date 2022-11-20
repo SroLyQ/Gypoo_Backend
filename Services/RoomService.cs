@@ -17,6 +17,15 @@ namespace GypooWebAPI.Services
 
         public async Task CreateRoomAsync(Room room)
         {
+            room.roomCount30Day = new List<roomAva>();
+            for (int i = 0; i < 30; i++)
+            {
+                var nowDate = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy");
+                roomAva nowAva = new roomAva();
+                nowAva.date = nowDate;
+                nowAva.count = room.roomCount;
+                room.roomCount30Day.Add(nowAva);
+            }
             await _roomCollection.InsertOneAsync(room);
             return;
         }
