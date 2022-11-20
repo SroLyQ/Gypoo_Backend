@@ -115,7 +115,7 @@ namespace GypooWebAPI.Services
 
         public async Task<Hotel> GetHotelByIdAsync(string id)
         {
-            Hotel hotel = await _hotelCollection.Find(_hotel => _hotel.Id == id).SingleAsync();
+            Console.WriteLine("hotel Found");
             Hotel res = await updateOnePrice(id);
             return res;
         }
