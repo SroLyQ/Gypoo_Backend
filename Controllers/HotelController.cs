@@ -51,9 +51,9 @@ namespace GypooWebAPI.Controllers
             return Ok(new { message = "Updated", hotel = updatedHotel });
         }
         [HttpPut("addRoomTo/{id}")]
-        public async Task<IActionResult> AddRoomToHotel(string id, [FromBody] Room room)
+        public async Task<IActionResult> AddRoomToHotel(string id, [FromBody] string roomId)
         {
-            await _hotelService.AddRoomToHotelAsync(id, room);
+            await _hotelService.AddRoomToHotelAsync(id, roomId);
             return Ok(new { message = "Room Added" });
         }
 
@@ -62,6 +62,13 @@ namespace GypooWebAPI.Controllers
         {
             List<Hotel> hotels = await _hotelService.getHotelByOwnerId(id);
             return Ok(new { message = "My Hotels Found!", hotels = hotels });
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchHotel([FromQuery(Name = "checkIn")] string checkIn, [FromQuery(Name = "checkOut")] string checkOut)
+        {
+            List<Hotel> hotels = await _hotelService.getAvailableHotel(checkIn, checkOut);
+            return Ok(new { message = "Found Hotels", hotels = hotels });
         }
     }
 }
