@@ -15,12 +15,12 @@ namespace GypooWebAPI.Models
         public float roomPrice { get; set; } = 0!;
 
         // public List<string> facilities { get; set; } = null!;
-        public List<roomAva> roomCount30Day { get; set; } = new List<roomAva>();
+        public List<RoomAva> roomCount30Day { get; set; } = new List<RoomAva>();
         public ServiceRoom service { get; set; } = null!;
 
         // public string comment { get; set; } = null!;
     }
-    public class roomAva
+    public class RoomAva
     {
         public string date { get; set; } = null!;
         public int count { get; set; } = 0;

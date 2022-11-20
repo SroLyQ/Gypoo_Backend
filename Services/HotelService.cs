@@ -68,7 +68,7 @@ namespace GypooWebAPI.Services
                     Console.WriteLine(room.idRoom);
                     int startIndex = 0;
                     int stopIndex = 0;
-                    List<roomAva> room30Day = room.roomCount30Day;
+                    List<RoomAva> room30Day = room.roomCount30Day;
                     for (int i = 0; i < 30; i++)
                     {
                         string nowAvaDate = room30Day[i].date;
