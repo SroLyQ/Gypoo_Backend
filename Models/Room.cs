@@ -14,10 +14,9 @@ namespace GypooWebAPI.Models
         public List<string> picture { get; set; } = null!;
         public float roomPrice { get; set; } = 0!;
 
-
         // public List<string> facilities { get; set; } = null!;
 
-        public List<ServiceRoom> service { get; set; } = null!;
+        public ServiceRoom service { get; set; } = null!;
 
         // public string comment { get; set; } = null!;
     }
@@ -33,6 +32,7 @@ namespace GypooWebAPI.Models
         public bool isOther { get; set; } = false!;
 
     }
+
     // public class Comment
     // {
     //     public string name { get; set; } = null!;
