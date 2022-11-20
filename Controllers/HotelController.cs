@@ -50,9 +50,9 @@ namespace GypooWebAPI.Controllers
             return Ok(new { message = "Updated", hotel = updatedHotel });
         }
         [HttpPut("addRoomTo/{id}")]
-        public async Task<IActionResult> AddRoomToHotel(string id, [FromBody] string roomId)
+        public async Task<IActionResult> AddRoomToHotel(string id, [FromBody] Room room)
         {
-            await _hotelService.AddRoomToHotelAsync(id, roomId);
+            await _hotelService.AddRoomToHotelAsync(id, room);
             return Ok(new { message = "Room Added" });
         }
 

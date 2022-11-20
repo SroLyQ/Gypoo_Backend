@@ -54,7 +54,8 @@ namespace GypooWebAPI.Services
 
             List<Claim> claims = new List<Claim>{
                 new Claim("username", user.username),
-                new Claim("role", "AdminKodHod")
+                new Claim("role", "AdminKodHod"),
+                new Claim("userID",user.Id),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
@@ -138,9 +139,11 @@ namespace GypooWebAPI.Services
             }
             return true;
         }
-        public async Task<string> getUsername(string id){
+        public async Task<string> getUsername(string id)
+        {
             User user = await _userCollection.Find(_user => _user.Id == id).SingleAsync();
-            if (user == null){
+            if (user == null)
+            {
                 return "Not Found";
             }
             return user.username;
