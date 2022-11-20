@@ -68,6 +68,21 @@ namespace GypooWebAPI.Services
             return;
         }
 
+        public async Task<Room> updateRoomByIdAsync(string id, Room room)
+        {
+            // var option = new FindOneAndUpdateOptions<Room, Room>
+            // {
+            //     IsUpsert = false,
+            //     ReturnDocument = ReturnDocument.After
+            // };
+            var update = Builders<Room>.Update.Set("roomType", room.roomType).Set("guest", room.guest).Set("roomCount", room.roomCount).Set("currentRoom", room.currentRoom).Set("roomPrice", room.roomPrice).Set("service", room.service);
+            Room result = await _roomCollection.FindOneAndUpdateAsync<Room>(_room => _room.idRoom == id, update);
+            if (result == null)
+            {
+                return null!;
+            }
+            return result;
+        }
         // public async Task DeleteRoomAsync(string id)
         // {
 
