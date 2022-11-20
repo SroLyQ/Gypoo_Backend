@@ -29,26 +29,12 @@ namespace GypooWebAPI.Services
                 room.roomCount30Day.Add(nowAva);
             }
             await _roomCollection.InsertOneAsync(room);
-
-            // Room _room = room;
-            // List<Room> rooms = await this.GetRoomByHotelId(room.idHotel);
-            // double rating = this.rateCalculation(comments);
-            // UpdateDefinition<Hotel> update = Builders<Hotel>.Update.Set<double>("rating", rating);
-            // await _roomCollection.UpdateOneAsync(_hotel => _hotel.Id == room.idHotel, update);
-            return;
+            // // ตอนสร้าง room แล้วให้เพิ่ม hotel ลงใน room
+            UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet("room", room);
+            await _hotelCollection.UpdateOneAsync(_hotel => _hotel.Id == room.idHotel, update);
         }
-        // public async Task<List<Room>> GetRoomByHotelId(string hotelId)
-        // {
-        //     List<Room> Rooms = await _roomCollection.Find(_Room => _Room.idHotel == hotelId).ToListAsync();
-        //     return Rooms;
-        // }
 
-        // public async Task<List<Room>> GetRoomsAva()
-        // {
-
-        //     return await _roomCollection.Find(new BsonDocument()).ToListAsync();
-        // }
-        private async Task<List<Room>> updateDiscount()
+        private async Task<List<Room>> updateDiscount() //ยังไม่ได้ใช้
         {
             // Room room = await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
             // Hotel hotel = await _hotelCollection.Find(_hotel => _hotel.Id == id).SingleAsync();
@@ -86,6 +72,18 @@ namespace GypooWebAPI.Services
         // {
 
         //     return;
+        // }
+
+        // public async Task<List<Room>> GetRoomByHotelId(string hotelId)
+        // {
+        //     List<Room> Rooms = await _roomCollection.Find(_Room => _Room.idHotel == hotelId).ToListAsync();
+        //     return Rooms;
+        // }
+
+        // public async Task<List<Room>> GetRoomsAva()
+        // {
+
+        //     return await _roomCollection.Find(new BsonDocument()).ToListAsync();
         // }
     }
 }
