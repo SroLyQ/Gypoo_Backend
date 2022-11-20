@@ -31,6 +31,7 @@ namespace GypooWebAPI.Controllers
         {
             Hotel hotel = await _hotelService.GetHotelByIdAsync(id);
             return Ok(new { hotel = hotel });
+
         }
 
         [HttpPost]
