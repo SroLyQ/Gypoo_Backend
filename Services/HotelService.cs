@@ -13,7 +13,45 @@ namespace GypooWebAPI.Services
             _mongoDBSevice = mongoDBService;
             _hotelCollection = _mongoDBSevice._hotelCollection;
         }
-
+        private async Task<List<Hotel>> updatePrice()
+        {
+            List<Hotel> hotels = await _hotelCollection.Find(new BsonDocument()).ToListAsync();
+            foreach (var hotel in hotels)
+            {
+                foreach (var room in hotel.room)
+                {
+                    if (hotel.price == 0)
+                    {
+                        hotel.price = room.roomPrice;
+                    }
+                    if (room.roomPrice < hotel.price)
+                    {
+                        hotel.price = room.roomPrice;
+                    }
+                }
+                var update = Builders<Hotel>.Update.Set("price", hotel.price);
+                Hotel newhotel = await _hotelCollection.FindOneAndUpdateAsync(_hotel => _hotel.Id == hotel.Id, update);
+            }
+            return hotels;
+        }
+        private async Task<Hotel> updateOnePrice(string id)
+        {
+            Hotel hotel = await _hotelCollection.Find(_hotel => _hotel.Id == id).SingleAsync();
+            foreach (var room in hotel.room)
+            {
+                if (hotel.price == 0)
+                {
+                    hotel.price = room.roomPrice;
+                }
+                if (room.roomPrice < hotel.price)
+                {
+                    hotel.price = room.roomPrice;
+                }
+            }
+            var update = Builders<Hotel>.Update.Set("price", hotel.price);
+            Hotel newHotel = await _hotelCollection.FindOneAndUpdateAsync(_hotel => _hotel.Id == id, update);
+            return hotel;
+        }
         public async Task CreateAsync(Hotel hotel)
         {
             await _hotelCollection.InsertOneAsync(hotel);
@@ -22,14 +60,15 @@ namespace GypooWebAPI.Services
 
         public async Task<List<Hotel>> GetHotelsAsync()
         {
-            List<Hotel> hotels = await _hotelCollection.Find(new BsonDocument()).ToListAsync();
+            List<Hotel> hotels = await updatePrice();
             return hotels;
         }
 
         public async Task<Hotel> GetHotelByIdAsync(string id)
         {
             Hotel hotel = await _hotelCollection.Find(_hotel => _hotel.Id == id).SingleAsync();
-            return hotel;
+            Hotel res = await updateOnePrice(id);
+            return res;
         }
 
         public async Task<Hotel> updateHotelByIdAsync(string id, Hotel hotel)
@@ -48,10 +87,10 @@ namespace GypooWebAPI.Services
             return result;
         }
 
-        public async Task AddRoomToHotelAsync(string id, string roomId)
+        public async Task AddRoomToHotelAsync(string id, Room room)
         {
             FilterDefinition<Hotel> filter = Builders<Hotel>.Filter.Eq("Id", id);
-            UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet<string>("room", roomId);
+            UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet<Room>("room", room);
             await _hotelCollection.UpdateOneAsync(filter, update);
             return;
         }
@@ -61,5 +100,7 @@ namespace GypooWebAPI.Services
             List<Hotel> myHotels = await _hotelCollection.Find(_hotel => _hotel.ownerID == ownerID).ToListAsync();
             return myHotels;
         }
+
+
     }
 }
