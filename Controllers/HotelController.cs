@@ -29,6 +29,7 @@ namespace GypooWebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetHotel(string id)
         {
+            Console.WriteLine(id);
             Hotel hotel = await _hotelService.GetHotelByIdAsync(id);
             return Ok(new { hotel = hotel });
 
