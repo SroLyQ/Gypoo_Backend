@@ -33,6 +33,43 @@ namespace GypooWebAPI.Services
             UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet("room", room);
             await _hotelCollection.UpdateOneAsync(_hotel => _hotel.Id == room.idHotel, update);
         }
+        public async Task UpdateBooking(Room room) // อัพเดทวันเวลาที่จอง
+        {
+
+            var roomBooking = room.roomCount30Day;
+            var nowDate = DateTime.Now.ToString("dd/MM/yyyy");
+            int countRemove = 30;
+            for (int i = 0; i < 30; i++)
+            {
+                int month = Int32.Parse(room.roomCount30Day[i].date.Split("/")[1]);
+                int monthNow = Int32.Parse(nowDate.Split("/")[1]);
+                int date = Int32.Parse(room.roomCount30Day[i].date.Split("/")[0]);
+                int dateNow = Int32.Parse(nowDate.Split("/")[0]);
+                if (month < monthNow)
+                {
+                    room.roomCount30Day.RemoveAt(0);
+                    countRemove--;
+                }
+                else if (date < dateNow)
+                {
+                    room.roomCount30Day.RemoveAt(0);
+                    countRemove--;
+                }
+            }
+            for (int i = 0; i < countRemove; i++)
+            {
+
+                int lastDate = Int32.Parse(room.roomCount30Day[-1].date.Split("/")[0]); //วันสุดท้ายหลังเคลียวัน
+
+                var endDate = DateTime.Now.AddDays(countRemove + i).ToString("dd/MM/yyyy");//เพิ่มต่อจากวันสุดท้าย
+                RoomAva nowAva = new RoomAva();
+                nowAva.date = endDate;
+                // nowAva.count = room.roomCount;
+                room.roomCount30Day.Add(nowAva);
+                // var nowDate = room.roomCount30Day.Add(countRemove).ToString("dd/MM/yyyy");
+
+            }
+        }
 
         private async Task<List<Room>> updateDiscount() //ยังไม่ได้ใช้
         {
