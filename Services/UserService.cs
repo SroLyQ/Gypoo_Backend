@@ -54,7 +54,8 @@ namespace GypooWebAPI.Services
 
             List<Claim> claims = new List<Claim>{
                 new Claim("username", user.username),
-                new Claim("role", "AdminKodHod")
+                new Claim("role", "AdminKodHod"),
+                new Claim("userID",user.Id),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
