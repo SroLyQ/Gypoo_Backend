@@ -7,6 +7,7 @@ namespace GypooWebAPI.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? idRoom { get; set; } = null!;
+        public string idHotel { get; set; } = null!;
         public string roomType { get; set; } = null!;
         public int guest { get; set; } = 0!;
         public int roomCount { get; set; } = 0!;
