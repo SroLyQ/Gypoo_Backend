@@ -22,11 +22,11 @@ namespace GypooWebAPI.Services
                 {
                     if (hotel.price == 0)
                     {
-                        hotel.price = room.price;
+                        hotel.price = room.roomPrice;
                     }
-                    if (room.price < hotel.price)
+                    if (room.roomPrice < hotel.price)
                     {
-                        hotel.price = room.price;
+                        hotel.price = room.roomPrice;
                     }
                 }
                 var update = Builders<Hotel>.Update.Set("price", hotel.price);
@@ -41,11 +41,11 @@ namespace GypooWebAPI.Services
             {
                 if (hotel.price == 0)
                 {
-                    hotel.price = room.price;
+                    hotel.price = room.roomPrice;
                 }
-                if (room.price < hotel.price)
+                if (room.roomPrice < hotel.price)
                 {
-                    hotel.price = room.price;
+                    hotel.price = room.roomPrice;
                 }
             }
             var update = Builders<Hotel>.Update.Set("price", hotel.price);
