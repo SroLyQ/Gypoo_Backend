@@ -33,9 +33,9 @@ namespace GypooWebAPI.Services
             UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet("room", room.idRoom);
             await _hotelCollection.UpdateOneAsync(_hotel => _hotel.Id == room.idHotel, update);
         }
-        public async Task BookingHotel(string id)
+        public async Task BookingHotel(string id, List<string> dateBooking)
         {
-            string[] dateBooking = { "23/11/2022", "24/11/2022", "25/11/2022", "26/11/2022" };
+            // string[] dateBooking = { "23/11/2022", "24/11/2022", "25/11/2022", "26/11/2022" };
             var numBooking = 1;
             var room = await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
             var roomBooking = room.roomCount30Day;
@@ -73,11 +73,6 @@ namespace GypooWebAPI.Services
                 int monthNow = Int32.Parse(checkDate.Split("/")[1]);
                 int date = Int32.Parse(room.roomCount30Day[i].date.Split("/")[0]);
                 int dateNow = Int32.Parse(checkDate.Split("/")[0]);
-                // var date = room.roomCount30Day[i].date;
-                // var dateNow = nowDate;
-                // Console.WriteLine("date = {0}", date);
-                // Console.WriteLine("dateNow = {0}", dateNow);
-                // Console.WriteLine("i = {0}", i);
                 if (month < monthNow)
                 {
                     room.roomCount30Day.RemoveAt(0);
@@ -138,16 +133,9 @@ namespace GypooWebAPI.Services
 
         public async Task<Room> GetRoomByIdAsync(string id)
         {
-            // List<Room> rooms = await UpdateBooking();
-            // List<Room> rooms = await _roomCollection.Find(new BsonDocument()).ToListAsync();
-            // foreach (var room in rooms)
-            // {
-            //     var update = Builders<Room>.Update.Set("roomCount30Day", room.roomCount30Day);
-            //     Room newRoom = await _roomCollection.FindOneAndUpdateAsync(_room => _room.roomCount30Day == room.roomCount30Day, update);
-            // }
             var room = await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
             UpdateBooking(room);
-            BookingHotel(id);
+            // BookingHotel(id);
             updateRoom(room.idRoom, room);
             return room;
             // return await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();

@@ -17,7 +17,7 @@ namespace GypooWebAPI.Models
         public string phone { get; set; } = null!;
         public string payment { get; set; } = null!;
         public string roomBooking { get; set; } = null!; // จำนวนห้องที่จะจอง
-        public string dateBooking { get; set; } = null!; // วันเวลาที่จอง
+        public List<string> dateBooking { get; set; } = null!; // วันเวลาที่จอง
         // public string checkin { get; set; } = null!;
         // public string checkout { get; set; } = null!;
         public double price { get; set; } = 0!;

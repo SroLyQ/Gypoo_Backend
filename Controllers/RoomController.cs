@@ -47,19 +47,20 @@ namespace GypooWebAPI.Controllers
 
         }
 
-        // [HttpPut("booking")]
-        // public async Task<IActionResult> PutBooking(string id, [FromBody] Room room, List<RoomAva> avaRoom)
-        // {
+        [HttpPut("booking/{id}")]
+        public async Task<IActionResult> PutBooking(string id, List<string> dateBooking)
+        {
+            await _roomService.BookingHotel(id, dateBooking);
+            // Room updateRoom = await _roomService.updateRoomByIdAsync(id, room);
 
-        //     Room updateRoom = await _roomService.updateRoomByIdAsync(id, room);
+            // if (updateRoom == null)
+            // {
+            //     return BadRequest(new { message = "Room : Wrong id or Body key(s) missing!" });
+            // }
+            return Ok(new { message = "Updated" });
 
-        //     if (updateRoom == null)
-        //     {
-        //         return BadRequest(new { message = "Room : Wrong id or Body key(s) missing!" });
-        //     }
-        //     return Ok(new { message = "Updated", room = updateRoom });
-        //     // await _roomService.AddDetailToRoomAsync(id, room);
-        // }
+
+        }
 
         // [HttpDelete("{id}")]
         // public async Task<IActionResult> DeleteToRoom(string id)
