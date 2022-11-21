@@ -25,8 +25,8 @@ namespace GypooWebAPI.Models
         public float? discount { get; set; } = 0;
         public float? rating { get; set; } = 0;
         public int? review { get; set; } = 0;
-        public List<Room>? room { get; set; } = new List<Room>();
-        public List<Comment>? comments { get; set; } = new List<Comment>();
+        public List<string>? room { get; set; } = new List<string>();
+        public List<string>? comments { get; set; } = new List<string>();
     }
     public class LocationType
     {
