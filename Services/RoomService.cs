@@ -33,6 +33,30 @@ namespace GypooWebAPI.Services
             UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet("room", room.idRoom);
             await _hotelCollection.UpdateOneAsync(_hotel => _hotel.Id == room.idHotel, update);
         }
+        public async Task BookingHotel(string id, List<RoomAva> avaRoom)
+        {
+            string[] dateBooking = { "23/11/2022", "24/11/2022", "25/11/2022", "26/11/2022" };
+            var numBooking = 1;
+            var room = await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
+            var roomBooking = room.roomCount30Day;
+            var nowDate = DateTime.Now.ToString("dd/MM/yyyy");
+
+            for (int i = 0; i < 30; i++)
+            {
+                var checkDate = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy");
+                // RoomAva nowAva = new RoomAva();
+                // nowAva.count = room.roomCount;
+                if (dateBooking.Contains(checkDate))
+                {
+                    avaRoom[i].count = avaRoom[i].count - numBooking;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+        }
         public async Task UpdateBooking(Room room) // อัพเดทวันเวลาที่จอง
         {
 
@@ -86,7 +110,7 @@ namespace GypooWebAPI.Services
                 // var nowDate = room.roomCount30Day.Add(countRemove).ToString("dd/MM/yyyy");
             }
             await _roomCollection.InsertOneAsync(room);
-            Console.WriteLine(room);
+            // Console.WriteLine(room);
 
 
         }

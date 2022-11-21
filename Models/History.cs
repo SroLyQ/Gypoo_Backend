@@ -8,10 +8,19 @@ namespace GypooWebAPI.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? _id { get; set; } = null!; // id ของประวัติให้ที่พัก
         public int? index { get; set; } = 0;
-        public string idRoom { get; set; } = null!; // type room
-        public string checkin { get; set; } = null!;
-        public string checkout { get; set; } = null!;
-
+        public string idHotel { get; set; } = null!;
+        public string idRoom { get; set; } = null!;
+        public string idUser { get; set; } = null!;
+        public string firstName { get; set; } = null!;
+        public string lastName { get; set; } = null!;
+        public string email { get; set; } = null!;
+        public string phone { get; set; } = null!;
+        public string payment { get; set; } = null!;
+        public string roomBooking { get; set; } = null!; // จำนวนห้องที่จะจอง
+        public string dateBooking { get; set; } = null!; // วันเวลาที่จองทั้งหมด
+        // public string checkin { get; set; } = null!;
+        // public string checkout { get; set; } = null!;
+        public string price { get; set; } = null!;
 
     }
     // public class FacilitiesRoom_History
