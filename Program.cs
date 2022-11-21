@@ -12,6 +12,7 @@ builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddSingleton<HotelService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<RoomService>();
+builder.Services.AddSingleton<HistoryService>();
 builder.Services.AddSingleton<UploadService>();
 builder.Services.AddSingleton<CommentService>();
 builder.Services.AddSingleton<PromotionService>();
