@@ -20,7 +20,8 @@ namespace GypooWebAPI.Services
             List<Hotel> hotels = await _hotelCollection.Find(new BsonDocument()).ToListAsync();
             foreach (var hotel in hotels)
             {
-                foreach (var room in hotel.room)
+                List<Room> rooms = await _roomCollection.Find(_room => _room.idHotel == hotel.Id).ToListAsync();
+                foreach (var room in rooms)
                 {
                     if (hotel.price == 0)
                     {
@@ -39,7 +40,8 @@ namespace GypooWebAPI.Services
         private async Task<Hotel> updateOnePrice(string id)
         {
             Hotel hotel = await _hotelCollection.Find(_hotel => _hotel.Id == id).SingleAsync();
-            foreach (var room in hotel.room)
+            List<Room> rooms = await _roomCollection.Find(_room => _room.idHotel == id).ToListAsync();
+            foreach (var room in rooms)
             {
                 if (hotel.price == 0)
                 {
@@ -63,7 +65,8 @@ namespace GypooWebAPI.Services
             int outDateInt = Int32.Parse(outDay);
             foreach (var hotel in hotels)
             {
-                foreach (var room in hotel?.room)
+                List<Room> rooms = await _roomCollection.Find(_room => _room.idHotel == hotel.Id).ToListAsync();
+                foreach (var room in rooms)
                 {
                     Console.WriteLine(room.idRoom);
                     int startIndex = 0;
