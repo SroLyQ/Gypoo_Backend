@@ -25,7 +25,15 @@ namespace GypooWebAPI.Controllers
                 hotels = hotels
             });
         }
-
+        [HttpGet("type")]
+        public async Task<IActionResult> GetType([FromQuery] string type)
+        {
+            List<Hotel> hotels = await _hotelService.GetHotelByTypeAsync(type);
+            return Ok(new
+            {
+                hotels = hotels
+            });
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetHotel(string id)
         {

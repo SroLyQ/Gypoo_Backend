@@ -115,7 +115,27 @@ namespace GypooWebAPI.Services
             List<Hotel> hotels = await updatePrice();
             return hotels;
         }
-
+        public async Task<List<Hotel>> GetHotelByTypeAsync(string type)
+        {
+            List<Hotel> hotels = new List<Hotel>();
+            if (type == "hotel")
+            {
+                hotels = await updatePrice();
+            }
+            else if (type == "activity")
+            {
+                hotels = await _hotelCollection.Find(_hotel => _hotel.locationType.isTravel == true).ToListAsync();
+            }
+            else if (type == "restaurant")
+            {
+                hotels = await _hotelCollection.Find(_hotel => _hotel.locationType.isRestaurant == true).ToListAsync();
+            }
+            else
+            {
+                hotels = await _hotelCollection.Find(new BsonDocument()).ToListAsync();
+            }
+            return hotels;
+        }
         public async Task<Hotel> GetHotelByIdAsync(string id)
         {
             Console.WriteLine("hotel Found");
