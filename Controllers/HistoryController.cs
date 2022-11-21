@@ -9,9 +9,11 @@ namespace GypooWebAPI.Controllers
     public class HistoryController : Controller
     {
         private readonly HistoryService _historyService;
+        private readonly RoomService _roomService;
         public HistoryController(HistoryService historyService)
         {
             _historyService = historyService;
+
         }
 
         [HttpGet]
