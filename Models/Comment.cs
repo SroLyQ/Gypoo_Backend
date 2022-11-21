@@ -11,6 +11,7 @@ namespace GypooWebAPI.Models
         public string content { get; set; } = null!;
         public string commentBy { get; set; } = null!;
         public string commentOn { get; set; } = null!;
+        public string? usernameComment { get; set; } = null!;
         public double rating { get; set; } = 0.0;
         public string? date { get; set; } = null!;
     }
