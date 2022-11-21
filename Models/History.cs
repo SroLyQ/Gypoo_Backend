@@ -22,6 +22,7 @@ namespace GypooWebAPI.Models
         // public string checkout { get; set; } = null!;
         public string price { get; set; } = null!;
 
+
     }
     // public class FacilitiesRoom_History
     // {
