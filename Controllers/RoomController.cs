@@ -48,9 +48,9 @@ namespace GypooWebAPI.Controllers
         }
 
         [HttpPut("booking/{id}")]
-        public async Task<IActionResult> PutBooking(string id, List<string> dateBooking)
+        public async Task<IActionResult> PutBooking(string id, List<string> dateBooking, int numBooking)
         {
-            await _roomService.BookingHotel(id, dateBooking);
+            await _roomService.BookingHotel(id, dateBooking, numBooking);
             // Room updateRoom = await _roomService.updateRoomByIdAsync(id, room);
 
             // if (updateRoom == null)

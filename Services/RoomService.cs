@@ -33,10 +33,10 @@ namespace GypooWebAPI.Services
             UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet("room", room.idRoom);
             await _hotelCollection.UpdateOneAsync(_hotel => _hotel.Id == room.idHotel, update);
         }
-        public async Task BookingHotel(string id, List<string> dateBooking)
+        public async Task BookingHotel(string id, List<string> dateBooking, int numBooking)
         {
             // string[] dateBooking = { "23/11/2022", "24/11/2022", "25/11/2022", "26/11/2022" };
-            var numBooking = 1;
+            // var numBooking = 1;
             var room = await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
             var roomBooking = room.roomCount30Day;
             var nowDate = DateTime.Now.ToString("dd/MM/yyyy");
