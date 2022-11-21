@@ -8,6 +8,9 @@ namespace GypooWebAPI.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? _id { get; set; } = null!; // id ของประวัติให้ที่พัก
         public int? index { get; set; } = 0;
+        public double price { get; set; } = 0;
+        public List<string> picture { get; set; } = new List<string>(); // Hotel Picture
+        public string name { get; set; } = null!; // Hotel name
         public string idRoom { get; set; } = null!; // type room
         public string checkin { get; set; } = null!;
         public string checkout { get; set; } = null!;

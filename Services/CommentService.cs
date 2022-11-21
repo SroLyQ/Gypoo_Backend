@@ -8,6 +8,7 @@ namespace GypooWebAPI.Services
         private MongoDBService _mongoDBService;
         private IMongoCollection<Comment> _commentCollection;
         private IMongoCollection<Hotel> _hotelCollection;
+        private IMongoCollection<User> _userCollection;
         private double rateCalculation(List<Comment> comments)
         {
             double rating = 0;
@@ -24,6 +25,7 @@ namespace GypooWebAPI.Services
             _mongoDBService = mongoDBService;
             _commentCollection = mongoDBService._commentCollection;
             _hotelCollection = mongoDBService._hotelCollection;
+            _userCollection = mongoDBService._userCollection;
         }
 
         public async Task<Comment> GetCommentAsync(string id)
@@ -35,6 +37,15 @@ namespace GypooWebAPI.Services
         {
             DateTime nowDate = DateTime.Now;
             comment.date = nowDate.ToString("dd/MM/yyyy hh:mm tt");
+            if (comment.commentBy == "")
+            {
+                comment.usernameComment = "Guest";
+            }
+            else
+            {
+                User _user = await _userCollection.Find(_user => _user.Id == comment.commentBy).SingleAsync();
+                comment.usernameComment = _user.username;
+            }
             await _commentCollection.InsertOneAsync(comment);
             Comment _comment = comment;
             List<Comment> comments = await this.GetCommentsByHotelId(comment.commentOn);
