@@ -56,7 +56,7 @@ namespace GypooWebAPI.Services
                     countRemove--;
                 }
             }
-            for (int i = 0; i < countRemove; i++)
+            for (int i = 0; i < 30 - countRemove; i++)
             {
 
                 int lastDate = Int32.Parse(room.roomCount30Day[-1].date.Split("/")[0]); //วันสุดท้ายหลังเคลียวัน
