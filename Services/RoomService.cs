@@ -22,15 +22,15 @@ namespace GypooWebAPI.Services
             room.roomCount30Day = new List<RoomAva>();
             for (int i = 0; i < 30; i++)
             {
-                var nowDate = DateTime.Now.AddDays(i - 5).ToString("dd/MM/yyyy");
+                var nowDate = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy");
                 RoomAva nowAva = new RoomAva();
                 nowAva.date = nowDate;
                 nowAva.count = room.roomCount;
                 room.roomCount30Day.Add(nowAva);
             }
             await _roomCollection.InsertOneAsync(room);
-            // // ตอนสร้าง room แล้วให้เพิ่ม hotel ลงใน room
-            UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet("room", room);
+            // // ตอนสร้าง room แล้วเพิ่ม idRoom ลงใน hotel
+            UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet("room", room.idRoom);
             await _hotelCollection.UpdateOneAsync(_hotel => _hotel.Id == room.idHotel, update);
         }
         public async Task UpdateBooking(Room room) // อัพเดทวันเวลาที่จอง
