@@ -33,7 +33,7 @@ namespace GypooWebAPI.Services
             UpdateDefinition<Hotel> update = Builders<Hotel>.Update.AddToSet("room", room.idRoom);
             await _hotelCollection.UpdateOneAsync(_hotel => _hotel.Id == room.idHotel, update);
         }
-        public async Task BookingHotel(string id, List<RoomAva> avaRoom)
+        public async Task BookingHotel(string id)
         {
             string[] dateBooking = { "23/11/2022", "24/11/2022", "25/11/2022", "26/11/2022" };
             var numBooking = 1;
@@ -46,16 +46,18 @@ namespace GypooWebAPI.Services
                 var checkDate = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy");
                 // RoomAva nowAva = new RoomAva();
                 // nowAva.count = room.roomCount;
+                // Console.WriteLine("roomBookingCount = {0}", roomBooking[i].count);
                 if (dateBooking.Contains(checkDate))
                 {
-                    avaRoom[i].count = avaRoom[i].count - numBooking;
-                }
-                else
-                {
-                    break;
+                    // Console.WriteLine("Booking !!!");
+                    roomBooking[i].count = roomBooking[i].count - numBooking;
+                    // Console.WriteLine("roomBookingCount = {0}", roomBooking[i].count);
                 }
 
             }
+            //  Console.WriteLine(_roomCollection.InsertOneAsync(room))
+            var update = Builders<Room>.Update.Set("roomCount30Day", roomBooking);
+            var bookingRoom = await _roomCollection.FindOneAndUpdateAsync(_room => _room.idRoom == id, update);
         }
         public async Task UpdateBooking(Room room) // อัพเดทวันเวลาที่จอง
         {
@@ -145,6 +147,7 @@ namespace GypooWebAPI.Services
             // }
             var room = await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
             UpdateBooking(room);
+            BookingHotel(id);
             updateRoom(room.idRoom, room);
             return room;
             // return await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
