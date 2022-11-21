@@ -41,31 +41,41 @@ namespace GypooWebAPI.Services
             int countRemove = 30;
             for (int i = 0; i < 30; i++)
             {
+                var checkDate = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy");
                 int month = Int32.Parse(room.roomCount30Day[i].date.Split("/")[1]);
-                int monthNow = Int32.Parse(nowDate.Split("/")[1]);
+                int monthNow = Int32.Parse(checkDate.Split("/")[1]);
                 int date = Int32.Parse(room.roomCount30Day[i].date.Split("/")[0]);
-                int dateNow = Int32.Parse(nowDate.Split("/")[0]);
+                int dateNow = Int32.Parse(checkDate.Split("/")[0]);
+                // var date = room.roomCount30Day[i].date;
+                // var dateNow = nowDate;
+                Console.WriteLine("date = {0}", date);
+                Console.WriteLine("dateNow = {0}", dateNow);
+                Console.WriteLine("i = {0}", i);
                 if (month < monthNow)
                 {
                     room.roomCount30Day.RemoveAt(0);
                     countRemove--;
+                    // Console.WriteLine("RoomBookingCheckMonth");
                 }
                 else if (date < dateNow)
                 {
                     room.roomCount30Day.RemoveAt(0);
                     countRemove--;
+                    // Console.WriteLine("RoomBookingCheckDate");
                 }
             }
             for (int i = 0; i < 30 - countRemove; i++)
             {
+                Console.WriteLine("----------------- Add Date ---------------------");
+                // int lastDate = Int32.Parse(room.roomCount30Day[-1].date.Split("/")[0]); //วันสุดท้ายหลังเคลียวัน
 
-                int lastDate = Int32.Parse(room.roomCount30Day[-1].date.Split("/")[0]); //วันสุดท้ายหลังเคลียวัน
-
-                var endDate = DateTime.Now.AddDays(countRemove + i).ToString("dd/MM/yyyy");//เพิ่มต่อจากวันสุดท้าย
+                var lastDate = DateTime.Now.AddDays(countRemove + i).ToString("dd/MM/yyyy");//เพิ่มต่อจากวันสุดท้าย
                 RoomAva nowAva = new RoomAva();
-                nowAva.date = endDate;
-                // nowAva.count = room.roomCount;
+                nowAva.date = lastDate;
+                nowAva.count = room.roomCount;
                 room.roomCount30Day.Add(nowAva);
+                Console.WriteLine("i = {0}", i);
+                Console.WriteLine("lastDate = {0}", lastDate);
                 // var nowDate = room.roomCount30Day.Add(countRemove).ToString("dd/MM/yyyy");
 
             }
@@ -87,14 +97,38 @@ namespace GypooWebAPI.Services
 
         public async Task<List<Room>> GetRoomsAsync()
         {
-            // List<Room> rooms = await updateDiscount();
-            // return rooms;
-            return await _roomCollection.Find(new BsonDocument()).ToListAsync();
+            List<Room> rooms = await _roomCollection.Find(new BsonDocument()).ToListAsync();
+
+            foreach (var room in rooms)
+            {
+
+                UpdateBooking(room);
+                // RoomAva nowAva = new RoomAva();
+                // var update = Builders<Room>.Update.Set("date", nowAva.date);
+                // Room result = await _roomCollection.FindOneAndUpdateAsync<Room>(_room => _room.roomCount30Day == id, update);
+                // var update = Builders<Room>.Update.Set("roomCount30Day", room.roomCount30Day);
+                // Room newRoom = await _roomCollection.FindOneAndUpdateAsync(_room => _room.roomCount30Day == room.roomCount30Day, update);
+            }
+
+            return rooms;
+            // return await _roomCollection.Find(new BsonDocument()).ToListAsync();
         }
 
         public async Task<Room> GetRoomByIdAsync(string id)
         {
-            return await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
+            // List<Room> rooms = await UpdateBooking();
+            // List<Room> rooms = await _roomCollection.Find(new BsonDocument()).ToListAsync();
+            // foreach (var room in rooms)
+            // {
+            //     var update = Builders<Room>.Update.Set("roomCount30Day", room.roomCount30Day);
+            //     Room newRoom = await _roomCollection.FindOneAndUpdateAsync(_room => _room.roomCount30Day == room.roomCount30Day, update);
+            // }
+
+            var room = await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
+            UpdateBooking(room);
+            return room;
+            // return await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
+
         }
 
         public async Task AddDetailToRoomAsync(string id, string roomId)
