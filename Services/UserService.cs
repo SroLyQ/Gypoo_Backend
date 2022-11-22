@@ -51,11 +51,15 @@ namespace GypooWebAPI.Services
         }
         private string CreateToken(User user)
         {
-
+            string id = "";
+            if (user.Id != null)
+            {
+                id = user.Id;
+            }
             List<Claim> claims = new List<Claim>{
                 new Claim("username", user.username),
                 new Claim("role", "AdminKodHod"),
-                new Claim("userID",user.Id),
+                new Claim("userID",id)
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
@@ -94,10 +98,11 @@ namespace GypooWebAPI.Services
             _user.PasswordHash = passwordHash;
             _user.PasswordSalt = passwordSalt;
 
-            string token = CreateToken(_user);
+            await _userCollection.InsertOneAsync(_user);
+            User createdUser = await _userCollection.Find(_fuser => _fuser.username == _user.username).SingleAsync();
+            string token = CreateToken(createdUser);
 
             _user.token = token;
-            await _userCollection.InsertOneAsync(_user);
             UserNoPW _resUser = (UserNoPW)_user;
             return _resUser;
         }
