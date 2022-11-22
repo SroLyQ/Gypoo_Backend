@@ -50,7 +50,7 @@ namespace GypooWebAPI.Services
             Comment _comment = comment;
             List<Comment> comments = await this.GetCommentsByHotelId(comment.commentOn);
             double rating = this.rateCalculation(comments);
-            UpdateDefinition<Hotel> update = Builders<Hotel>.Update.Set<double>("rating", rating);
+            UpdateDefinition<Hotel> update = Builders<Hotel>.Update.Set<double>("rating", rating).Inc("review", 1);
             await _hotelCollection.UpdateOneAsync(_hotel => _hotel.Id == comment.commentOn, update);
             return _comment;
         }

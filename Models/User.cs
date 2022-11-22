@@ -15,5 +15,15 @@ namespace GypooWebAPI.Models
 
         public string? token { get; set; } = null!;
         public string role { get; set; } = null!;
+
+        public string? name { get; set; } = null!;
+        public string? surname { get; set; } = null!;
+        public string? email { get; set; } = null!;
+    }
+    public class UserUpdate
+    {
+        public string name { get; set; } = null!;
+        public string surname { get; set; } = null!;
+        public string email { get; set; } = null!;
     }
 }
