@@ -14,7 +14,7 @@ namespace GypooWebAPI.Models
         public int currentRoom { get; set; } = 0!; // เอามาจาก roomAva
         public List<string> picture { get; set; } = new List<string>();
         public double roomPrice { get; set; } = 0!;
-        public int discount { get; set; } = 0!;
+        public double discount { get; set; } = 0!;
         public List<RoomAva> roomCount30Day { get; set; } = new List<RoomAva>();
         public ServiceRoom service { get; set; } = null!;
         // public List<string> facilities { get; set; } = null!;
