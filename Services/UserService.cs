@@ -74,7 +74,6 @@ namespace GypooWebAPI.Services
 
             return jwt;
         }
-
         public async Task<UserNoPW> GetUserByIdAsync(string id)
         {
             User users = await _userCollection.Find((_user => _user.Id == id)).SingleAsync();
@@ -102,7 +101,6 @@ namespace GypooWebAPI.Services
             UserNoPW _resUser = (UserNoPW)_user;
             return _resUser;
         }
-
         public async Task<string> loginAsync(UserDTO user)
         {
             var _user = await _userCollection.Find(_user => _user.username == user.username).SingleOrDefaultAsync();
@@ -122,7 +120,6 @@ namespace GypooWebAPI.Services
                 return "false";
             }
         }
-
         public bool validateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -147,6 +144,18 @@ namespace GypooWebAPI.Services
                 return "Not Found";
             }
             return user.username;
+        }
+        public async Task<UserNoPW> updateUser(string id, UserUpdate userData)
+        {
+            var option = new FindOneAndUpdateOptions<User, User>
+            {
+                IsUpsert = false,
+                ReturnDocument = ReturnDocument.After
+            };
+            var update = Builders<User>.Update.Set("name", userData.name).Set("surname", userData.surname).Set("email", userData.email);
+            User user = await _userCollection.FindOneAndUpdateAsync<User>(_user => _user.Id == id, update, option);
+            UserNoPW _user = (UserNoPW)user;
+            return _user;
         }
     }
 }

@@ -84,5 +84,13 @@ namespace GypooWebAPI.Controllers
             }
             return Ok(new { message = "Ok User Found!", username = username });
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<string>> updateProfile(string id, [FromBody] UserUpdate userData)
+        {
+            UserNoPW user = await _userService.updateUser(id, userData);
+
+            return Ok(new { message = "User updated!", user = user });
+        }
     }
 }
