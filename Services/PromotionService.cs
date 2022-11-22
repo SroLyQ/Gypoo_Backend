@@ -26,7 +26,23 @@ namespace GypooWebAPI.Services
         public async Task<List<Promotion>> getMyPromotions(string id)
         {
             List<Promotion> _promotions = await _promotionCollection.Find(_promotion => _promotion.ownerID == id).ToListAsync();
-            return _promotions;
+            List<string> deletePromo = new List<string> { };
+            foreach (var promotion in _promotions)
+            {
+                var endDate = DateTime.ParseExact(promotion.endDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                var nowDate = DateTime.Now;
+                Console.WriteLine(nowDate.CompareTo(endDate));
+                if (nowDate.CompareTo(endDate) > 0)
+                {
+                    deletePromo.Add(promotion.id);
+                }
+            }
+            foreach (var promoId in deletePromo)
+            {
+                await _promotionCollection.DeleteOneAsync(_promo => _promo.id == promoId);
+            }
+            List<Promotion> __promotions = await _promotionCollection.Find(_promotion => _promotion.ownerID == id).ToListAsync();
+            return __promotions;
         }
     }
 }
