@@ -40,6 +40,7 @@ namespace GypooWebAPI.Services
             var room = await _roomCollection.Find(_room => _room.idRoom == id).SingleAsync();
             var roomBooking = room.roomCount30Day;
             var nowDate = DateTime.Now.ToString("dd/MM/yyyy");
+            Console.WriteLine("BookingHotel");
 
             for (int i = 0; i < 30; i++)
             {
