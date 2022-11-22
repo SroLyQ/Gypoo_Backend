@@ -44,11 +44,11 @@ namespace GypooWebAPI.Services
 
             for (int i = 0; i < 30; i++)
             {
-                var checkDate = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy");
+                // var checkDate = DateTime.Now.AddDays(i).ToString("dd/MM/yyyy");
                 // RoomAva nowAva = new RoomAva();
                 // nowAva.count = room.roomCount;
                 // Console.WriteLine("roomBookingCount = {0}", roomBooking[i].count);
-                if (dateBooking.Contains(checkDate))
+                if (dateBooking.Contains(roomBooking[i].date))
                 {
                     // Console.WriteLine("Booking !!!");
                     roomBooking[i].count = roomBooking[i].count - numBooking;
